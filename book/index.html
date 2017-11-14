@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <style>
+        tr{
+            vertical-align: inherit;
+        }
+        .lineHeiht{
+        	line-height: 82px;
+        }
+    </style>   
+   		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>		
+    <script>    	    	
+        window.onload= function(){
+            var vm = new Vue({
+                el:'.container',
+                data:{
+                    myData:[],
+                    name:'',
+                    author:'',
+                    company:'',
+                    price:'',
+                    page:'',
+                    img:'',
+                },
+                methods:{
+                    add:function(){
+                        this.myData.push({
+                            name:this.name,
+                            author:this.author,
+                            company:this.company,
+                            price:this.price,
+                            page:this.page,
+                            img:this.img,
+                        });
+                        this.name="";
+                        this.author="";
+                        this.company="";
+                        this.price="";
+                        this.page="";
+                        this.img="";
+                    },
+               		reset:function(){
+                        this.name="";
+                        this.author="";
+                        this.company="";
+                        this.price="";
+                        this.page="";
+                        this.img="";
+                    },
+                    del:function(index){
+                        this.myData.splice(index,1)
+                    },
+                    delAll:function(){
+                        this.myData=[];
+                    }
+                }
+            })
+        }
+        
+    </script>
+</head>
+<body>	
+    <div class="container">
+        <table class="table table-striped table-hover">
+            <caption><h3>新书速递 </h3></caption>
+            <tr>
+                <td class="text-center">序号</td>
+                <td class="text-center">书名</td>
+                <td class="text-center">作者</td>
+                <td class="text-center">出版社</td>
+                <td class="text-center">定价</td>
+                <td class="text-center">页数</td>
+                <td class="text-center">封面</td>
+                <td class="text-center">操作</td>
+            </tr>
+            <tr v-for="(item,index) in myData">
+                <td class="text-center lineHeiht">{{index+1}}</td>
+                <td class="text-center lineHeiht">{{item.name}}</td>
+                <td class="text-center lineHeiht">{{item.author}}</td>
+                <td class="text-center lineHeiht">{{item.company}}</td>
+                <td class="text-center lineHeiht">{{item.price}}</td>
+                <td class="text-center lineHeiht">{{item.page}}</td>
+                <td class="text-center "><img :src="item.img" class="img-thumbnail" width="60px"/></td>
+                <td class="text-center lineHeiht">
+                    <button class="btn btn-danger btn-sm"
+                        v-on:click="del(index)"
+                        data-toggle="dialog" data-target="#layer"
+                    >删除</button>
+                </td>
+            </tr>
+            <tr v-show="myData.length!=0">
+                <td colspan="8" class="text-right">
+                    <button v-on:click="delAll()" class="btn btn-danger btn-sm">删除全部</button>
+                </td>
+            </tr>            
+            <tr v-show="myData.length==0">
+                <td colspan="8" class="text-center">
+                    <p>暂无数据</p>
+                </td>
+            </tr>
+        </table>
+        <form role="form" >
+            <div class="form-group">
+                <label for="name">书名：</label>
+                <input placeholder="输入用户名" type="text"
+                       v-model="name"
+                       id="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="author">作者：</label>
+                <input placeholder="输入作者" type="text"
+                       v-model="author"
+                       id="author" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="company">出版社：</label>
+                <input placeholder="输入出版社" type="text"
+                       v-model="company"
+                       id="company" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="price">定价：</label>
+                <input placeholder="输入定价" type="text"
+                       v-model="price"
+                       id="price" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="page">页数：</label>
+                <input placeholder="输入页数" type="text"
+                       v-model="page"
+                       id="page" class="form-control">
+            </div>          
+            <div class="form-group">
+                <label for="img">封面：</label>
+                <input placeholder="输入图片链接" type="text"
+                       v-model="img"
+                       id="img" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-info" v-on:click="add()" value="添加">
+                <input type="button" class="btn btn-info" v-on:click="reset()" value="重置">
+            </div>
+        </form>
+    </div>
+
+
+</body>
+</html>
